@@ -9,6 +9,8 @@ mongoose.connect(
     poolSize: 20,
     useCreateIndex: true,
     useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
   },
   (err) => {
     if (err) {
