@@ -24,7 +24,7 @@ app.use(
 app.use('/users', userRouter);
 
 app.get('/', (req, res) => {
-  res.send('HELLO WORLD!');
+  res.send('Hotel System API');
 });
 
 app.listen(1234, () => {
