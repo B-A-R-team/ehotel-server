@@ -1,13 +1,11 @@
+/**
+ * 用户模型结构
+ */
 import mongoose from 'mongoose';
-import baseModel from './base_model';
 
 const Schema = mongoose.Schema;
 
-/**
- * 用户模型
- */
-export default UserSchema = new Schema({
-  _id,
+const UserSchema = new Schema({
   name: { type: String },
   nickname: { type: String },
   pass: { type: String },
@@ -32,3 +30,5 @@ export default UserSchema = new Schema({
   // 积分
   integral: { type: Number, default: 0 },
 });
+
+export default UserSchema;

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../../config.json';
+import UserSchema from './user';
 
 mongoose.connect(
   config.db,
@@ -14,3 +15,7 @@ mongoose.connect(
     }
   }
 );
+
+const User = mongoose.model('User', UserSchema);
+
+export { User };

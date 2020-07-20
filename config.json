@@ -1,3 +1,4 @@
 {
-  "db": "mongodb://localhost/hotel_dev"
+  "db": "mongodb://localhost/hotel_dev",
+  "secret": "secret123456"
 }
