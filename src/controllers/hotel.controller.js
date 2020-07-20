@@ -139,4 +139,25 @@ router.put('/update/:id', async (req, res) => {
   }
 });
 
+/**
+ * 删除店面
+ * @route DELETE /hotel/delete/:id
+ * @param {String} id.params
+ */
+router.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await hotelService.removeById(id);
+    res.json({
+      code: 0,
+      message: 'SUCCESS',
+    });
+  } catch (error) {
+    res.json({
+      code: 1,
+      message: error,
+    });
+  }
+});
+
 export default router;

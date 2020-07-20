@@ -66,5 +66,13 @@ export default class HotelService {
     return await Hotel.findByIdAndUpdate(id, hotel);
   }
 
+  /**
+   * 注销店面
+   * @param {String} id 酒店ID
+   */
+  async removeById(id) {
+    return Hotel.findByIdAndDelete(id);
+  }
+
   // @todo 是否应该增加员工  可能需要修改模型
 }
