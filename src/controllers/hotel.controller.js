@@ -1,5 +1,6 @@
 import HotelService from '../service/hotel.service';
 import express from 'express';
+import RoomService from '../service/room.service';
 const router = express.Router();
 
 const hotelService = new HotelService();
@@ -16,6 +17,27 @@ router.get('/:id', async (req, res) => {
   res.json({
     code: 0,
     data: hotel,
+  });
+});
+
+/**
+ * 查询该酒店全部房间信息
+ * @route GET /hotel/:id/rooms
+ * @param {String} id hotel id
+ */
+router.get('/:id/rooms', async (req, res) => {
+  const roomService = new RoomService();
+  const { id } = req.params;
+  const rooms = await roomService.getAllRoom(id);
+  if (rooms.length < 1) {
+    return res.json({
+      code: 1,
+      message: '暂无房间信息',
+    });
+  }
+  res.json({
+    code: 0,
+    data: rooms,
   });
 });
 

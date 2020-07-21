@@ -6,7 +6,15 @@ export default class RoomService {
    * @param {String} hotelId 房间所属的酒店ID
    */
   async getAllRoom(hotelId) {
-    return await Room.findOne({ hotel_id: hotelId });
+    return await Room.find({ hotel_id: hotelId });
+  }
+
+  /**
+   * 根据Id查找房价
+   * @param {String} id Room Id
+   */
+  async getRoomById(id) {
+    return Room.findById(id);
   }
 
   /**
@@ -67,5 +75,31 @@ export default class RoomService {
     } catch (error) {
       throw error;
     }
+  }
+
+  /**
+   * 修改房间信息
+   * @param {String} id Room ID
+   * @param {object} room 房间信息
+   */
+  async update(id, room) {
+    try {
+      const roomInfo = this.validateAndFix(room);
+      return await Room.findByIdAndUpdate(id, roomInfo);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 删除房间
+   * @param {String} id Room ID
+   */
+  async remove(id) {
+    const room = this.findById(id);
+    if (room === null) {
+      throw '未找到要删除的房间';
+    }
+    return await Room.findByIdAndDelete(id);
   }
 }
