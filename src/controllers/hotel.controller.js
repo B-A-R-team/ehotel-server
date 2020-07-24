@@ -1,6 +1,5 @@
-import HotelService from '../service/hotel.service';
+import { HotelService, RoomService } from '../service';
 import express from 'express';
-import RoomService from '../service/room.service';
 const router = express.Router();
 
 const hotelService = new HotelService();

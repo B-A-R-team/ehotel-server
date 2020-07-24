@@ -1,4 +1,4 @@
-import RoomService from '../service/room.service';
+import { RoomService } from '../service';
 import express from 'express';
 const router = express.Router();
 

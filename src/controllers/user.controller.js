@@ -1,4 +1,4 @@
-import UserService from '../service/user.service';
+import { UserService } from '../service';
 import express from 'express';
 const router = express.Router();
 

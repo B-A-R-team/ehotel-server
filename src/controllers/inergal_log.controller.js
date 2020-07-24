@@ -1,4 +1,4 @@
-import IntergalLogService from '../service/intergal_log.service';
+import { IntergalLogService } from '../service';
 import express from 'express';
 const router = express.Router();
 

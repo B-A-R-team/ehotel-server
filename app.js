@@ -1,11 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import userRouter from './src/controllers/user.controller';
-import hotelRouter from './src/controllers/hotel.controller';
-import roomRouter from './src/controllers/room.controller';
-import recordRouter from './src/controllers/record.controller';
-import activeRouter from './src/controllers/active.controller';
-import intergalLogRouter from './src/controllers/inergal_log.controller';
+import {
+  userRouter,
+  hotelRouter,
+  roomRouter,
+  recordRouter,
+  activeRouter,
+  intergalLogRouter,
+} from './src/controllers';
 import expressJwt from 'express-jwt';
 import { secret } from './config.json';
 

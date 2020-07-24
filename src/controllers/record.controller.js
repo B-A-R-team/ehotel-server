@@ -1,4 +1,4 @@
-import RecordService from '../service/record.service';
+import { RecordService } from '../service';
 import express from 'express';
 const router = express.Router();
 
