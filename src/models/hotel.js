@@ -9,8 +9,6 @@ const HotelSchema = new Schema({
   title: { type: String },
   address: { type: String },
   phone: { type: String },
-  // 房间ID
-  rooms_id: { type: [Schema.Types.ObjectId] },
   // 开门时间
   open_time: { type: String, default: '08:00' },
   // 关门时间
