@@ -49,7 +49,6 @@ router.post('/create', async (req, res) => {
     img_url,
     desc,
   } = req.body;
-
   try {
     await roomService.create({
       title,

@@ -3,6 +3,9 @@ import bodyParser from 'body-parser';
 import userRouter from './src/controllers/user.controller';
 import hotelRouter from './src/controllers/hotel.controller';
 import roomRouter from './src/controllers/room.controller';
+import recordRouter from './src/controllers/record.controller';
+import activeRouter from './src/controllers/active.controller';
+import intergalLogRouter from './src/controllers/inergal_log.controller';
 import expressJwt from 'express-jwt';
 import { secret } from './config.json';
 
@@ -11,6 +14,7 @@ const app = express();
 // body-parser 中间件
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 // jwt 中间件
 app.use(
   expressJwt({
@@ -26,6 +30,9 @@ app.use(
 app.use('/users', userRouter);
 app.use('/hotels', hotelRouter);
 app.use('/rooms', roomRouter);
+app.use('/records', recordRouter);
+app.use('/actives', activeRouter);
+app.use('/intergalLogs', intergalLogRouter);
 
 app.get('/', (res) => {
   res.send('Hotel System API');

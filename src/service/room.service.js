@@ -55,10 +55,11 @@ export default class RoomService {
 
     room.old_price = new_price;
 
-    // 将数组格式的url字符串转为数组
-    img_url = JSON.parse(img_url);
-    if (img_url.length > 0) {
-      room.img_url = img_url;
+    if (img_url) {
+      img_url = JSON.parse(img_url);
+      if (img_url.length > 0) {
+        room.img_url = img_url;
+      }
     }
 
     return room;
