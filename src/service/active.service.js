@@ -53,8 +53,8 @@ export default class ActiveService {
     try {
       if (this.getActiveById(id)) {
         let activeInfo = this.validate(active);
-        active.update_at = Date.now;
-        return await Active.update(id, activeInfo);
+        active.update_at = Date.now();
+        return await Active.findByIdAndUpdate(id, activeInfo);
       }
     } catch (error) {
       throw error;

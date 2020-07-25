@@ -19,27 +19,47 @@ export default class HotelService {
     return await Hotel.findById(id);
   }
 
+  async validate(hotel) {
+    let { title, address, phone, open_time, end_time, owners_id, desc } = hotel;
+
+    if (
+      !title ||
+      !address ||
+      !phone ||
+      !open_time ||
+      !end_time ||
+      !owners_id ||
+      !desc
+    ) {
+      throw '请填写完整数据';
+    }
+
+    if (owners_id) {
+      owners_id = JSON.parse(owners_id);
+
+      for (let i = 0; i < owners_id.length; i++) {
+        const user = await userService.getUserById(owners_id[i]);
+        if (!user['is_business']) {
+          throw `${user['nickname']} 不是商家账号`;
+        }
+      }
+      hotel.owners_id = owners_id;
+    }
+
+    return hotel;
+  }
+
   /**
    * 创建酒店
    * @param {object} hotel 酒店信息
    */
   async create(hotel) {
-    let { owners_id } = hotel;
-
-    // 转为数组
-    owners_id = JSON.parse(owners_id);
-    if (owners_id.length === 0) {
-      throw '店主不能为空';
+    try {
+      const hotelInfo = await this.validate(hotel);
+      return await Hotel.create(hotelInfo);
+    } catch (error) {
+      throw error;
     }
-    for (let i = 0; i < owners_id.length; i++) {
-      const user = await userService.getUserById(owners_id[i]);
-      if (!user['is_business']) {
-        throw `${user['nickname']} 不是商家账号`;
-      }
-    }
-    // 将转为数组的店主id存入数据
-    hotel.owners_id = owners_id;
-    return await Hotel.create(hotel);
   }
 
   /**
@@ -48,22 +68,13 @@ export default class HotelService {
    * @param {object} hotel 酒店信息
    */
   async update(id, hotel) {
-    let { owners_id } = hotel;
-
-    // 转为数组
-    owners_id = JSON.parse(owners_id);
-    if (owners_id.length === 0) {
-      throw '店主不能为空';
+    console.log({ ...hotel });
+    try {
+      const hotelInfo = await this.validate(hotel);
+      return await Hotel.findByIdAndUpdate(id, hotelInfo);
+    } catch (error) {
+      throw error;
     }
-    for (let i = 0; i < owners_id.length; i++) {
-      const user = await userService.getUserById(owners_id[i]);
-      if (!user['is_business']) {
-        throw `${user['nickname']} 不是商家账号`;
-      }
-    }
-    // 将转为数组的店主id存入数据
-    hotel.owners_id = owners_id;
-    return await Hotel.findByIdAndUpdate(id, hotel);
   }
 
   /**

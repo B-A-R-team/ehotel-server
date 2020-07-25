@@ -9,7 +9,7 @@ const activeService = new ActiveService();
  * @route GET /actives/:id
  * @param {string} id.params
  */
-router.get('/:id', async (req, res) => {
+router.get('/getbyId/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const active = await activeService.getActiveById(id);
@@ -73,7 +73,7 @@ router.post('/create', async (req, res) => {
  * @param {string} desc.body
  * @param {string} hotel_id.body
  */
-router.post('/update/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
   const { id } = req.params;
   const { topic, start_time, end_time, detail, desc, hotel_id } = req.body;
   try {

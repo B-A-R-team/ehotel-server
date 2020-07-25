@@ -62,21 +62,6 @@ router.post('/create', async (req, res) => {
     desc,
   } = req.body;
 
-  if (
-    !title ||
-    !address ||
-    !phone ||
-    !open_time ||
-    !end_time ||
-    !owners_id ||
-    !desc
-  ) {
-    return res.json({
-      code: 1,
-      message: '请填写完整数据',
-    });
-  }
-
   try {
     await hotelService.create({
       title,
@@ -101,7 +86,7 @@ router.post('/create', async (req, res) => {
 
 /**
  * 修改酒店信息
- * @route PUT /hotel/update/:id
+ * @route PUT /hotels/update/:id
  * @param {String} id.params
  * @param {String} title.body
  * @param {String} address.body
@@ -123,20 +108,6 @@ router.put('/update/:id', async (req, res) => {
     desc,
   } = req.body;
 
-  if (
-    !title ||
-    !address ||
-    !phone ||
-    !open_time ||
-    !end_time ||
-    !owners_id ||
-    !desc
-  ) {
-    return res.json({
-      code: 1,
-      message: '请填写完整数据',
-    });
-  }
   try {
     await hotelService.update(id, {
       title,

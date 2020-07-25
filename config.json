@@ -1,4 +1,5 @@
 {
   "db": "mongodb://localhost/hotel_dev",
-  "secret": "secret123456"
+  "secret": "secret123456",
+  "server_port": "1239"
 }

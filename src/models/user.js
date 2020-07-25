@@ -9,8 +9,8 @@ const UserSchema = new Schema({
   name: { type: String },
   nickname: { type: String },
   pass: { type: String },
-  email: { type: String, unique: true },
-  phone: { type: String, unique: true },
+  email: { type: String },
+  phone: { type: String },
   avatar_url: { type: String },
   // 是否为店家
   is_business: { type: Boolean, default: false },
@@ -23,7 +23,7 @@ const UserSchema = new Schema({
   // 小程序openid
   openid: { type: String },
   // 身份证号码
-  person_id: { type: String, unique: true },
+  person_id: { type: String },
   // 登陆的酒店ID
   login_hotel_id: { type: String },
   token: { type: String },

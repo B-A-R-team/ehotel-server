@@ -7,11 +7,28 @@ const salt = bcrypt.genSaltSync(10);
 
 export default class UserService {
   /**
+   * 分页获取用户
+   * @param {number} page 请求页码
+   * @param {number} size 数据量
+   */
+  async getUserByPage(page, size) {
+    let userList = await User.find()
+      .skip(--page * size)
+      .limit(size);
+
+    const total = await User.countDocuments();
+    return { userList, total };
+  }
+  /**
    * 根据ID查找
    * @param {String} id 用户ID
    */
   async getUserById(id) {
-    return await User.findById(id);
+    const user = await User.findById(id);
+    if (!user) {
+      throw '未找到该用户';
+    }
+    return user;
   }
 
   /**
@@ -19,7 +36,11 @@ export default class UserService {
    * @param {String} email 邮箱
    */
   async getUserByEmail(email) {
-    return await User.findOne({ email });
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw '未找到该用户';
+    }
+    return user;
   }
 
   /**
@@ -28,7 +49,12 @@ export default class UserService {
    */
   async create(user) {
     // 加密
-    let { pass } = user;
+    let { pass, email } = user;
+
+    if (User.findOne({ email })) {
+      throw '该邮箱已注册';
+    }
+
     user.pass = bcrypt.hashSync(pass, salt);
 
     return await User.create(user);

@@ -72,6 +72,16 @@ export default class RoomService {
   async create(room) {
     try {
       const roomInfo = this.validateAndFix(room);
+
+      const diffRoom = await Room.findOne({
+        room_num: roomInfo.room_num,
+        hotel_id: roomInfo.hotel_id,
+      });
+
+      if (diffRoom) {
+        throw '房间号冲突，请更改房间号';
+      }
+
       return await Room.create(roomInfo);
     } catch (error) {
       throw error;

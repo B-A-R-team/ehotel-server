@@ -5,17 +5,37 @@ const router = express.Router();
 const userService = new UserService();
 
 /**
- * 根据邮箱获取用户信息
- * @route GET /users/:email
- * @param {String} email.params
+ * 分页获取用户
+ * @route GET /users/list?page=1&size=5
+ * @param {number} page.query
+ * @param {number} size.query
  */
-router.get('/:email', async (req, res) => {
-  const { email } = req.params;
-  const user = await userService.getUserByEmail(email);
-  res.json({
-    code: 0,
-    data: user,
-  });
+router.get('/list', async (req, res) => {
+  const { page = 1, size = 5 } = req.query;
+  try {
+    const users = await userService.getUserByPage(
+      parseInt(page),
+      parseInt(size)
+    );
+    res.json({ code: 0, data: users });
+  } catch (error) {
+    res.json({ code: 1, message: error });
+  }
+});
+
+/**
+ * 根据id获取用户信息
+ * @route GET /users/list/:id
+ * @param {String} id.params
+ */
+router.get('/list/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await userService.getUserById(id);
+    res.json({ code: 0, data: user });
+  } catch (error) {
+    res.json({ code: 1, message: error });
+  }
 });
 
 /**
@@ -27,12 +47,13 @@ router.get('/:email', async (req, res) => {
  */
 router.post('/register', async (req, res) => {
   const { nickname, pass, email } = req.body;
-  await userService.create({ nickname, pass, email });
+  try {
+    await userService.create({ nickname, pass, email });
 
-  res.json({
-    code: 0,
-    message: 'SUCCESS',
-  });
+    res.json({ code: 0, message: 'SUCCESS' });
+  } catch (error) {
+    res.json({ code: 1, message: error });
+  }
 });
 
 /**

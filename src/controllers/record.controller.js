@@ -6,10 +6,10 @@ const recordService = new RecordService();
 
 /**
  * 根据ID获取记录
- * @route GET /records/:id
+ * @route GET /records/getbyId/:id
  * @param {string} id.params
  */
-router.get('/:id', async (req, res) => {
+router.get('/getbyId/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const record = await recordService.getRecordById(id);
@@ -126,7 +126,7 @@ router.put('/setclose/:id', async (req, res) => {
 
 /**
  * 更新记录信息
- * @route PUT /records/update
+ * @route PUT /records/update/:id
  * @param {String} id.params
  * @param {String} hotel_id.body
  * @param {String} room_id.body

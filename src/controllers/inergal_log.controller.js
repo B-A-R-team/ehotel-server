@@ -6,13 +6,13 @@ const intergalLogService = new IntergalLogService();
 
 /**
  * get log by id
- * @route GET /intergalLogs/:id
+ * @route GET /intergalLogs/getbyId/:id
  * @param {String} id.params
  */
-router.get('/:id', async (req, res) => {
+router.get('/getbyId/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const log = intergalLogService.getIntergalLogById(id);
+    const log = await intergalLogService.getIntergalLogById(id);
     res.json({ code: 0, data: log });
   } catch (error) {
     res.json({ code: 1, message: error });
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
 router.get('/getby', async (req, res) => {
   const { userId } = req.query;
   try {
-    const logs = intergalLogService.getIntergalLogByUserId(userId);
+    const logs = await intergalLogService.getIntergalLogByUserId(userId);
     res.json({ code: 0, data: logs });
   } catch (error) {
     res.json({ code: 1, message: error });
@@ -55,7 +55,7 @@ router.post('/create', async (req, res) => {
 
 /**
  * update intergal log
- * @route PUT /intergalLog/update/:id
+ * @route PUT /intergalLogs/update/:id
  * @param {string} id.params
  * @param {string} user_id.body
  * @param {boolean} is_out.body
