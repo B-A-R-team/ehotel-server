@@ -32,6 +32,18 @@ export default class UserService {
   }
 
   /**
+   * 根据openid获取用户信息
+   * @param {String} openid 微信小程序 openid
+   */
+  async getUserByOpenid(openid) {
+    const user = await User.findOne({ openid });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  /**
    * 根据邮箱查找
    * @param {String} email 邮箱
    */
@@ -60,6 +72,10 @@ export default class UserService {
     return await User.create(user);
   }
 
+  async createForWX(nickname, avatar_url, openid) {
+    return await User.create({ nickname, avatar_url, openid });
+  }
+
   /**
    * 验证邮箱密码是否匹配
    * @param {String} email 邮箱
@@ -76,6 +92,18 @@ export default class UserService {
       return { user, token };
     }
     return null;
+  }
+
+  /**
+   * 根据小程序返回数据创建token
+   * @param {string} openid 微信小程序openid
+   * @param {string} session_key 微信小程序session_key
+   */
+  async getToken(openid, session_key) {
+    const token = `Bearer ${jwt.sign({ openid, session_key }, secret, {
+      expiresIn: 60 * 60 * 24,
+    })}`;
+    return token;
   }
 
   /**

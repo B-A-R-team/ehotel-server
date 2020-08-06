@@ -37,7 +37,7 @@ app.use(
     algorithms: ['HS256'],
     credentialsRequired: true,
   }).unless({
-    path: ['/users/login', '/users/register', '/'],
+    path: ['/users/login', '/users/register', '/users/loginforwx'],
   })
 );
 

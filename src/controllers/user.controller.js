@@ -1,5 +1,7 @@
 import { UserService } from '../service';
 import express from 'express';
+import fetch from 'node-fetch';
+import { appsecret, appid } from '../../config.json';
 const router = express.Router();
 
 const userService = new UserService();
@@ -76,6 +78,37 @@ router.post('/login', async (req, res) => {
   res.json({
     code: 0,
     data: loginInfo,
+  });
+});
+
+/**
+ * 微信小程序授权登录
+ * @route POST /users/loginforwx
+ * @param {string} nickname
+ * @param {string} avatar_url
+ * @param {string} code
+ */
+router.post('/loginforwx', async (req, res) => {
+  const { nickname, avatar_url, code } = req.body;
+
+  const response = await fetch(
+    `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${appsecret}&js_code=${code}&grant_type=authorization_code`
+  );
+  const result = await response.json();
+  const { openid, session_key } = result;
+
+  const token = await userService.getToken(openid, session_key);
+
+  let user = await userService.getUserByOpenid(openid);
+  // 如果用户不存在，创建账户
+  if (user === null) {
+    user = await userService.createForWX(nickname, avatar_url, openid);
+  }
+
+  res.json({
+    code: 0,
+    user,
+    token,
   });
 });
 

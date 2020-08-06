@@ -1,5 +1,7 @@
 {
   "db": "mongodb://localhost/hotel_dev",
   "secret": "secret123456",
-  "server_port": "1239"
+  "server_port": "1239",
+  "appid": "wx29813b3365938a41",
+  "appsecret": "a0e1c9cbb1fa958c93588626348ff66c"
 }
