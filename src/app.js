@@ -18,7 +18,7 @@ import ejs from 'ejs';
 const app = express();
 
 // 静态文件目录
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(__dirname + '/upload'));
 
 // ssl 证书配置
 const options = {
@@ -37,7 +37,14 @@ app.use(
     algorithms: ['HS256'],
     credentialsRequired: true,
   }).unless({
-    path: ['/users/login', '/users/register', '/users/loginforwx'],
+    path: [
+      '/users/login',
+      '/users/register',
+      '/users/loginforwx',
+      '/hotels/clientget',
+      '/hotels/getrooms',
+      /\/static*/,
+    ],
   })
 );
 

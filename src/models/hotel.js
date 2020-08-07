@@ -17,6 +17,10 @@ const HotelSchema = new Schema({
   owners_id: { type: [Schema.Types.ObjectId] },
   // 酒店详情
   desc: { type: String },
+  // 维度
+  latitude: { type: Schema.Types.Number },
+  // 经度
+  longitude: { type: Schema.Types.Number },
 });
 
 export default HotelSchema;

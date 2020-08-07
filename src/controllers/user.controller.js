@@ -90,6 +90,7 @@ router.post('/login', async (req, res) => {
  */
 router.post('/loginforwx', async (req, res) => {
   const { nickname, avatar_url, code } = req.body;
+  console.log(nickname, avatar_url, code);
 
   const response = await fetch(
     `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${appsecret}&js_code=${code}&grant_type=authorization_code`

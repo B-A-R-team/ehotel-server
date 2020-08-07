@@ -57,6 +57,7 @@ export default class RoomService {
 
     if (img_url) {
       img_url = JSON.parse(img_url);
+      console.log(img_url);
       if (img_url.length > 0) {
         room.img_url = img_url;
       }

@@ -9,8 +9,8 @@ const hotelService = new HotelService();
  * @route GET /hotels/:id
  * @param {String} id.params
  */
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+router.get('/clientget', async (req, res) => {
+  const { id } = req.query;
   const hotel = await hotelService.getHotelById(id);
 
   res.json({
@@ -24,9 +24,9 @@ router.get('/:id', async (req, res) => {
  * @route GET /hotel/:id/rooms
  * @param {String} id hotel id
  */
-router.get('/:id/rooms', async (req, res) => {
+router.get('/getrooms', async (req, res) => {
   const roomService = new RoomService();
-  const { id } = req.params;
+  const { id } = req.query;
   const rooms = await roomService.getAllRoom(id);
   if (rooms.length < 1) {
     return res.json({
@@ -60,6 +60,8 @@ router.post('/create', async (req, res) => {
     end_time,
     owners_id,
     desc,
+    latitude,
+    longitude,
   } = req.body;
 
   try {
@@ -71,6 +73,8 @@ router.post('/create', async (req, res) => {
       end_time,
       owners_id,
       desc,
+      latitude,
+      longitude,
     });
     res.json({
       code: 0,
@@ -106,6 +110,8 @@ router.put('/update/:id', async (req, res) => {
     end_time,
     owners_id,
     desc,
+    latitude,
+    longitude,
   } = req.body;
 
   try {
@@ -117,6 +123,8 @@ router.put('/update/:id', async (req, res) => {
       end_time,
       owners_id,
       desc,
+      latitude,
+      longitude,
     });
 
     res.json({
