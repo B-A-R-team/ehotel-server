@@ -11,6 +11,14 @@ const hotelService = new HotelService();
  */
 router.get('/clientget', async (req, res) => {
   const { id } = req.query;
+
+  if (!id) {
+    return res.json({
+      code: 2,
+      message: 'NOT FIND NECESSARY PARAMS',
+    });
+  }
+
   const hotel = await hotelService.getHotelById(id);
 
   res.json({

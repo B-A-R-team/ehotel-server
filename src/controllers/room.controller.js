@@ -1,3 +1,5 @@
+// TODO 许多功能
+
 import { RoomService } from '../service';
 import express from 'express';
 const router = express.Router();
@@ -36,6 +38,8 @@ router.get('/:id', async (req, res) => {
  * @param {number} new_price.body
  * @param {[String]} img_url.body
  * @param {String} desc.body
+ * @param {String} room_info.body
+ * @param {String} computer_info.body
  */
 router.post('/create', async (req, res) => {
   const {
@@ -48,6 +52,8 @@ router.post('/create', async (req, res) => {
     new_price,
     img_url,
     desc,
+    room_info,
+    computer_info,
   } = req.body;
   try {
     await roomService.create({
@@ -60,6 +66,8 @@ router.post('/create', async (req, res) => {
       new_price,
       img_url,
       desc,
+      room_info,
+      computer_info,
     });
 
     res.json({
@@ -87,6 +95,8 @@ router.post('/create', async (req, res) => {
  * @param {number} new_price.body
  * @param {[String]} img_url.body
  * @param {String} desc.body
+ * @param {String} room_info.body
+ * @param {String} computer_info.body
  */
 router.put('/update/:id', async (req, res) => {
   const { id } = req.params;
@@ -100,6 +110,8 @@ router.put('/update/:id', async (req, res) => {
     new_price,
     img_url,
     desc,
+    room_info,
+    computer_info,
   } = req.body;
 
   try {
@@ -113,6 +125,8 @@ router.put('/update/:id', async (req, res) => {
       new_price,
       img_url,
       desc,
+      room_info,
+      computer_info,
     });
 
     res.json({

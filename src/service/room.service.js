@@ -31,6 +31,8 @@ export default class RoomService {
       hotel_id,
       new_price,
       img_url,
+      room_info,
+      computer_info,
     } = room;
 
     if (
@@ -40,7 +42,9 @@ export default class RoomService {
       !max_count ||
       !empty_count ||
       !hotel_id ||
-      !new_price
+      !new_price ||
+      !room_info ||
+      !computer_info
     ) {
       throw '请填写完整数据';
     }

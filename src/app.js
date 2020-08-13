@@ -38,6 +38,7 @@ app.use(
     credentialsRequired: true,
   }).unless({
     path: [
+      '/',
       '/users/login',
       '/users/register',
       '/users/loginforwx',
@@ -78,3 +79,5 @@ const server = app;
 server.listen(server_port, () => {
   console.log(`服务已启动，端口:${server_port}`);
 });
+
+export default server;

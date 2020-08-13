@@ -25,6 +25,10 @@ const RoomSchema = new Schema({
   desc: { type: String },
   // 房间图片
   img_url: { type: [String] },
+  // 房间详情信息
+  room_info: { type: String },
+  // 电脑配置
+  computer_info: { type: String },
 });
 
 export default RoomSchema;
