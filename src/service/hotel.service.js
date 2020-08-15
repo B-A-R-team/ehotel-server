@@ -1,5 +1,7 @@
 import { Hotel } from '../models';
 import UserService from './user.service';
+import fs from 'fs';
+import path from 'path';
 
 const userService = new UserService();
 export default class HotelService {
@@ -35,7 +37,7 @@ export default class HotelService {
     }
 
     if (owners_id) {
-      owners_id = JSON.parse(owners_id);
+      owners_id = JSON.parse(JSON.stringify(owners_id));
 
       for (let i = 0; i < owners_id.length; i++) {
         const user = await userService.getUserById(owners_id[i]);
@@ -47,6 +49,20 @@ export default class HotelService {
     }
 
     return hotel;
+  }
+
+  /**
+   * 获取该酒店的轮播图
+   * @param {String} id 酒店ID
+   */
+  async getSwiperList(id) {
+    const hotel = await this.getHotelById(id);
+    const { swiperList } = hotel;
+    if (swiperList.length > 0) {
+      return swiperList;
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -68,13 +84,75 @@ export default class HotelService {
    * @param {object} hotel 酒店信息
    */
   async update(id, hotel) {
-    console.log({ ...hotel });
     try {
       const hotelInfo = await this.validate(hotel);
       return await Hotel.findByIdAndUpdate(id, hotelInfo);
     } catch (error) {
       throw error;
     }
+  }
+
+  /**
+   * 添加轮播图路径到数据库
+   * @param {String} id 酒店ID
+   * @param {String} swiperUrl 轮播图路径
+   */
+  async addSwiper(id, swiperUrl) {
+    try {
+      let hotel = await Hotel.findById(id);
+      const { swiperList } = hotel;
+
+      if (!swiperList) {
+        hotel['swiperList'] = [swiperUrl];
+      } else {
+        hotel['swiperList'] = [...swiperList, swiperUrl];
+      }
+
+      return await this.update(id, hotel);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 更新轮播图信息
+   * @param {String} id 酒店ID
+   * @param {String[]} swiperUrlList 轮播图路径
+   */
+  async updateSwiper(id, swiperUrlList) {
+    try {
+      let hotel = await Hotel.findById(id);
+
+      if (swiperUrlList instanceof Object) {
+        hotel['swiperList'] = swiperUrlList;
+      } else {
+        hotel['swiperList'] = JSON.parse(swiperUrlList);
+      }
+
+      return await this.update(id, hotel);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 上传文件
+   * @param {String} filename 文件名
+   * @param {File} file 文件
+   * @param {Function} callback
+   */
+  upload(filename, file, callback) {
+    const newFilename = new Date().getTime() + path.extname(filename);
+    const file_path = path.join(__dirname, '../upload/' + newFilename);
+    const file_url = 'static/' + newFilename;
+
+    file.on('end', function () {
+      callback({
+        url: file_url,
+      });
+    });
+
+    file.pipe(fs.createWriteStream(file_path));
   }
 
   /**
@@ -85,5 +163,5 @@ export default class HotelService {
     return Hotel.findByIdAndDelete(id);
   }
 
-  // @todo 是否应该增加员工  可能需要修改模型
+  // TODO 是否应该增加员工  可能需要修改模型
 }

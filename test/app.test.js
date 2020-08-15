@@ -8,3 +8,8 @@ describe('test/app.test.js', function () {
     request.get('/').expect(200, done);
   });
 });
+
+// 关闭测试连接
+after(function () {
+  process.exit();
+});

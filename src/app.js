@@ -14,6 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import https from 'https';
 import ejs from 'ejs';
+import busboy from 'connect-busboy';
 
 const app = express();
 
@@ -44,8 +45,18 @@ app.use(
       '/users/loginforwx',
       '/hotels/clientget',
       '/hotels/getrooms',
+      '/hotels/swiper',
       /\/static*/,
     ],
+  })
+);
+
+// connect-busboy 上传文件的中间件
+app.use(
+  busboy({
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB
+    },
   })
 );
 
@@ -71,13 +82,13 @@ app.use((req, res) => {
 });
 
 // 创建https服务
-// const server = https.createServer(options, app);
+// const app_https = https.createServer(options, app);
 
-// dev
-const server = app;
+if (!module.parent) {
+  // 监听端口，启动程序
+  app.listen(server_port, () => {
+    console.log(`服务已启动，端口:${server_port}`);
+  });
+}
 
-server.listen(server_port, () => {
-  console.log(`服务已启动，端口:${server_port}`);
-});
-
-export default server;
+export default app;

@@ -9,6 +9,7 @@ const HotelSchema = new Schema({
   title: { type: String },
   address: { type: String },
   phone: { type: String },
+  swiperList: { type: [String] },
   // 开门时间
   open_time: { type: String, default: '08:00' },
   // 关门时间

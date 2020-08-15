@@ -7,7 +7,7 @@ import RecordSchema from './record';
 import ActiveSchema from './active';
 import IntergalLogSchema from './intergal_log';
 
-mongoose.connect(
+const dbconnection = mongoose.connect(
   config.db,
   {
     poolSize: 20,

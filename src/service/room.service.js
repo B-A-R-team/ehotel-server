@@ -6,7 +6,12 @@ export default class RoomService {
    * @param {String} hotelId 房间所属的酒店ID
    */
   async getAllRoom(hotelId) {
-    return await Room.find({ hotel_id: hotelId });
+    const room = await Room.find({ hotel_id: hotelId });
+    if (room.length > 0) {
+      return room;
+    } else {
+      throw '该酒店暂无房间/该酒店尚不存在';
+    }
   }
 
   /**

@@ -1,3 +1,7 @@
 node_modules
 public/www.barteam.cn.pfx
 dist
+
+# 覆盖测试输出文件夹
+.nyc_output
+coverage
