@@ -38,10 +38,14 @@ export default class RecordService {
    * @param {object} record 记录信息
    */
   validate(record) {
-    let { hotel_id, room_id, guest_id } = record;
+    let { hotel_id, room_id, guest_id, member_message } = record;
 
     if (!hotel_id || !room_id || !guest_id) {
       throw '请确定酒店id，房间id以及入住用户id';
+    }
+
+    if (member_message) {
+      record['member_message'] = JSON.stringify(member_message);
     }
 
     return record;
@@ -93,6 +97,37 @@ export default class RecordService {
       } else {
         throw '未找到该记录';
       }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * find by id and open this record
+   * @param {string} id record id
+   */
+  async setOpen(id) {
+    try {
+      if (await this.getRecordById(id)) {
+        return await Record.findByIdAndUpdate(id, {
+          is_close: false,
+          update_at: Date.now(),
+        });
+      } else {
+        throw '未找到该记录';
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * 根据id删除
+   * @param {String} id
+   */
+  async removeById(id) {
+    try {
+      return await Record.findByIdAndDelete(id);
     } catch (error) {
       throw error;
     }

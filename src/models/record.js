@@ -22,6 +22,12 @@ const RecordSchema = new Schema({
   remarks: { type: String },
   // 参加的活动ID
   active_id: { type: String },
+  // 记录状态
+  status: { type: String, default: '待付款' },
+  // 优惠信息
+  coupon: { type: Number, default: 0 },
+  // 订单价格
+  price: { type: Number, required: true },
 });
 
 export default RecordSchema;

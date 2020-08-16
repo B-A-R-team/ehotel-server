@@ -6,11 +6,10 @@ const recordService = new RecordService();
 
 /**
  * 根据ID获取记录
- * @route GET /records/getbyId/:id
- * @param {string} id.params
+ * @route GET /records/getbyId?id
  */
-router.get('/getbyId/:id', async (req, res) => {
-  const { id } = req.params;
+router.get('/getbyId', async (req, res) => {
+  const { id } = req.query;
   try {
     const record = await recordService.getRecordById(id);
     res.json({
@@ -30,7 +29,6 @@ router.get('/getbyId/:id', async (req, res) => {
  * @route GET /records/getby?hotelId=
  * @route GET /records/getby?roomId=
  * @route GET /records/getby?guestId=
- * @param {String} hotelId.query
  */
 router.get('/getby', async (req, res) => {
   const { hotelId, roomId, guestId } = req.query;
@@ -65,12 +63,6 @@ router.get('/getby', async (req, res) => {
 /**
  * 创建记录
  * @route POST /records/create
- * @param {String} hotel_id.body
- * @param {String} room_id.body
- * @param {String} guest_id.body
- * @param {String} member_message.body - json格式字符串
- * @param {String} remarks.body
- * @param {String} active_id.body
  */
 router.post('/create', async (req, res) => {
   const {
@@ -80,20 +72,27 @@ router.post('/create', async (req, res) => {
     member_message,
     remarks,
     active_id,
+    status,
+    coupon,
+    price,
   } = req.body;
 
   try {
-    await recordService.create({
+    const record = await recordService.create({
       hotel_id,
       room_id,
       guest_id,
       member_message,
       remarks,
       active_id,
+      status,
+      coupon,
+      price,
     });
     res.json({
       code: 0,
       message: 'SUCCESS',
+      data: record,
     });
   } catch (error) {
     res.json({
@@ -125,15 +124,29 @@ router.put('/setclose/:id', async (req, res) => {
 });
 
 /**
+ * 将某条记录设置为有效记录
+ * @route PUT /records/setopen/:id
+ * @param {String} id.params
+ */
+router.put('/setopen/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await recordService.setOpen(id);
+    res.json({
+      code: 0,
+      message: 'SUCCESS',
+    });
+  } catch (error) {
+    res.json({
+      code: 1,
+      message: error,
+    });
+  }
+});
+
+/**
  * 更新记录信息
  * @route PUT /records/update/:id
- * @param {String} id.params
- * @param {String} hotel_id.body
- * @param {String} room_id.body
- * @param {String} guest_id.body
- * @param {String} member_message.body - json格式字符串
- * @param {String} remarks.body
- * @param {String} active_id.body
  */
 router.put('/update/:id', async (req, res) => {
   const { id } = req.params;
@@ -144,6 +157,9 @@ router.put('/update/:id', async (req, res) => {
     member_message,
     remarks,
     active_id,
+    status,
+    coupon,
+    price,
   } = req.body;
 
   try {
@@ -154,7 +170,31 @@ router.put('/update/:id', async (req, res) => {
       member_message,
       remarks,
       active_id,
+      status,
+      coupon,
+      price,
     });
+    res.json({
+      code: 0,
+      message: 'SUCCESS',
+    });
+  } catch (error) {
+    res.json({
+      code: 1,
+      message: error,
+    });
+  }
+});
+
+/**
+ * 删除订单记录
+ * @route DELETE /records/delete/:id
+ */
+router.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await recordService.removeById(id);
     res.json({
       code: 0,
       message: 'SUCCESS',
