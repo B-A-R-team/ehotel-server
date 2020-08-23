@@ -19,7 +19,7 @@ export default class RoomService {
    * @param {String} id Room Id
    */
   async getRoomById(id) {
-    return Room.findById(id);
+    return await Room.findById(id);
   }
 
   /**

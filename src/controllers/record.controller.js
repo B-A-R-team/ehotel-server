@@ -10,6 +10,7 @@ const recordService = new RecordService();
  */
 router.get('/getbyId', async (req, res) => {
   const { id } = req.query;
+
   try {
     const record = await recordService.getRecordById(id);
     res.json({

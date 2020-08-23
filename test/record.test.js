@@ -67,7 +67,7 @@ describe('test/record.test.js', function () {
       .get('/records/getbyId')
       .set('Authorization', self['token'])
       .query({
-        id: self['hotelId'],
+        hotelId: self['hotelId'],
       })
       .expect(200)
       .end((err, res) => {

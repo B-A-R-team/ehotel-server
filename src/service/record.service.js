@@ -1,4 +1,7 @@
 import { Record } from '../models';
+import { RoomService } from '.';
+
+// const roomService = new RoomService();
 
 export default class RecordService {
   /**
@@ -6,7 +9,19 @@ export default class RecordService {
    * @param {string} id record id
    */
   async getRecordById(id) {
-    return await Record.findById(id);
+    const roomService = new RoomService();
+    const record = await Record.findById(id);
+    const room = await roomService.getRoomById(record['room_id']);
+
+    return {
+      title: room['title'],
+      id: record['_id'],
+      status: record['status'],
+      time: record['create_at'],
+      member: record['member_message'],
+      discount: record['coupon'],
+      price: record['price'],
+    };
   }
 
   /**
@@ -30,7 +45,28 @@ export default class RecordService {
    * @param {string} guestId guest id
    */
   async getRecordByGuestId(guestId) {
-    return await Record.findOne({ guest_id: guestId });
+    const roomService = new RoomService();
+    const recordList = await Record.find({ guest_id: guestId }).sort({
+      _id: -1,
+    });
+
+    let recordData = [];
+
+    for (let i = 0; i < recordList.length; i++) {
+      const room = await roomService.getRoomById(recordList[i]['room_id']);
+
+      recordData.push({
+        title: room['title'],
+        id: recordList[i]['_id'],
+        status: recordList[i]['status'],
+        time: recordList[i]['create_at'],
+        member: recordList[i]['member_message'],
+        discount: recordList[i]['coupon'],
+        price: recordList[i]['price'],
+      });
+    }
+
+    return recordData;
   }
 
   /**

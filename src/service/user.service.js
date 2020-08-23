@@ -101,7 +101,7 @@ export default class UserService {
    */
   async getToken(openid, session_key) {
     const token = `Bearer ${jwt.sign({ openid, session_key }, secret, {
-      expiresIn: 60 * 60 * 24,
+      expiresIn: 60 * 60 * 24 * 3,
     })}`;
     return token;
   }
