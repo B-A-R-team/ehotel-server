@@ -24,7 +24,7 @@ app.use('/static', express.static(__dirname + '/upload'));
 // ssl 证书配置
 const options = {
   pfx: fs.readFileSync(path.join('public', 'www.barteam.cn.pfx')),
-  passphrase: 'psyz8c895y8ouz',
+  passphrase: 'ai91s23q1ekb',
 };
 
 // body-parser 中间件
@@ -82,11 +82,11 @@ app.use((req, res) => {
 });
 
 // 创建https服务
-// const app_https = https.createServer(options, app);
+const app_https = https.createServer(options, app);
 
 if (!module.parent) {
   // 监听端口，启动程序
-  app.listen(server_port, () => {
+  app_https.listen(server_port, () => {
     console.log(`服务已启动，端口:${server_port}`);
   });
 }
