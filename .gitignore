@@ -1,7 +1,13 @@
 node_modules
+
+# 文档与ssl
 public/www.barteam.cn.pfx
+public/apidocs.html
+
+# build文件夹
 dist
 
 # 覆盖测试输出文件夹
 .nyc_output
 coverage
+
