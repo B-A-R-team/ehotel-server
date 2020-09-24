@@ -46,7 +46,7 @@ export class Record {
   @Column({ type: 'boolean', default: false })
   is_close: boolean;
 
-  @Column({ length: 'MAX' })
+  @Column({ length: 1024 })
   member_message: string;
 
   @Column({ type: 'text', nullable: true })

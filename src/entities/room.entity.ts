@@ -60,12 +60,12 @@ export class Room {
   @Column('text')
   desc: string;
 
-  @Column({ length: 'MAX' })
+  @Column({ length: 1024 })
   img_url: string;
 
-  @Column({ length: 'MAX' })
+  @Column({ length: 1024 })
   room_info: string;
 
-  @Column({ length: 'MAX' })
+  @Column({ length: 1024 })
   computer_info: string;
 }

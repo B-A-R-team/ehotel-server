@@ -16,7 +16,7 @@ export class Active {
   @Column('nvarchar')
   topic: string;
 
-  @Column({ length: 'MAX' })
+  @Column({ length: 1024 })
   img_url: string;
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -30,7 +30,7 @@ export class Active {
   @Column()
   end_time: string;
 
-  @Column({ type: 'text', length: 'MAX' })
+  @Column({ type: 'text' })
   detail: string;
 
   @Column({ type: 'text' })

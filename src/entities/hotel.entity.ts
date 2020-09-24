@@ -25,7 +25,7 @@ export class Hotel {
   @Column({ nullable: true })
   phone: string;
 
-  @Column()
+  @Column({ length: 4096 })
   swiperList: string;
 
   @Column()

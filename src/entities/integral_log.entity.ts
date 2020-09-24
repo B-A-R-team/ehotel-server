@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -19,5 +25,6 @@ export class IntegralLog {
     type => User,
     user => user.integralLogs,
   )
+  @JoinTable()
   users: User[];
 }
