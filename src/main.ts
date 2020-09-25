@@ -6,6 +6,9 @@ import { TransformInterceptor } from './common/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  
+  // 开启跨域
+  app.enableCors();
   // 错误请求过滤器 - 封装错误请求
   app.useGlobalFilters(new HttpExceptionFilter());
   // 成功请求拦截器 - 封装成功请求

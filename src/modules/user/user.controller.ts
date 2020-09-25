@@ -25,8 +25,7 @@ import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { appid, appsecret } from '../../config/wxminapp.config';
 
-@ApiTags('user')
-@ApiBearerAuth()
+@ApiTags('用户接口')
 @Controller('user')
 export class UserController {
   constructor(
@@ -36,6 +35,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/list')
+  @ApiBearerAuth()
   @ApiOperation({ summary: '获取所有用户' })
   async getAll(): Promise<User[]> {
     return await this.userService.findAll();
@@ -43,6 +43,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/list/:id')
+  @ApiBearerAuth()
   @ApiOperation({ summary: '根据ID获取用户' })
   async getById(@Param('id') id: number) {
     return await this.userService.findById(id);
@@ -95,13 +96,17 @@ export class UserController {
     return { user, token };
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put('/tobusiness')
+  @ApiBearerAuth()
   @ApiOperation({ summary: '成为商家' })
   async toBusiness(@Body() id: number) {
     return await this.userService.changeIdentity(id, true);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put('/outbusiness')
+  @ApiBearerAuth()
   @ApiOperation({ summary: '退出商家' })
   async outBusiness(@Body() id: number) {
     return await this.userService.changeIdentity(id, false);
