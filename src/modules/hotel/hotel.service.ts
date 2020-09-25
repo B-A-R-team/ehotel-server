@@ -9,4 +9,12 @@ export class HotelService {
     @InjectRepository(Hotel)
     private readonly hotelRepository: Repository<Hotel>,
   ) {}
+
+  async findAll() {
+    return await this.hotelRepository.find();
+  }
+
+  async create(hotel: Hotel) {
+    return await this.hotelRepository.save(hotel);
+  }
 }

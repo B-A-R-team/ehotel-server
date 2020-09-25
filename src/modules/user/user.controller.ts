@@ -16,7 +16,7 @@ import {
   LoginByWXDto,
 } from './user.dto';
 import {
-  ApiCreatedResponse,
+  ApiBearerAuth,
   ApiHeader,
   ApiOperation,
   ApiTags,
@@ -26,6 +26,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { appid, appsecret } from '../../config/wxminapp.config';
 
 @ApiTags('user')
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(
@@ -36,18 +37,15 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get('/list')
   @ApiOperation({ summary: '获取所有用户' })
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'JWT',
-  })
   async getAll(): Promise<User[]> {
     return await this.userService.findAll();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('/list/:id')
   @ApiOperation({ summary: '根据ID获取用户' })
-  async getById(@Param() params: { id: number }) {
-    return await this.userService.findById(params.id);
+  async getById(@Param('id') id: number) {
+    return await this.userService.findById(id);
   }
 
   @Post('/register')

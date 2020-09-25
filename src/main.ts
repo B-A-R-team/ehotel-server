@@ -13,6 +13,7 @@ async function bootstrap() {
 
   // swagger
   const options = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Ehotel API Doc')
     .setDescription('电竞酒店后台API文档')
     .setVersion('2.0')
