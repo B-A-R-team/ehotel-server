@@ -9,12 +9,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiParam,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HotelService } from './hotel.service';
 import { CreateAndUpdateHotelDto, UpdateSwiperDto } from './hotel.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -89,4 +84,5 @@ export class HotelController {
   async delete(@Param('id') id: number) {
     return await this.hotelService.delete(id);
   }
+  // TODO 上传图片的API
 }
