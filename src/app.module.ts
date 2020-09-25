@@ -10,6 +10,8 @@ import { RecordModule } from './modules/record/record.module';
 import { ActiveModule } from './modules/active/active.module';
 import { CouponModule } from './modules/coupon/coupon.module';
 import { IntegralLogModule } from './modules/integral-log/integral-log.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserController } from './modules/user/user.controller';
 
 @Module({
   imports: [
@@ -21,8 +23,9 @@ import { IntegralLogModule } from './modules/integral-log/integral-log.module';
     ActiveModule,
     CouponModule,
     IntegralLogModule,
+    AuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UserController],
   providers: [AppService],
 })
 export class AppModule {}
