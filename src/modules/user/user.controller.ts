@@ -15,12 +15,7 @@ import {
   LoginResponseDto,
   LoginByWXDto,
 } from './user.dto';
-import {
-  ApiBearerAuth,
-  ApiHeader,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { appid, appsecret } from '../../config/wxminapp.config';
