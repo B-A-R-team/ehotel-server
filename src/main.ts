@@ -1,30 +1,37 @@
 import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/http-exception.filter';
 import { TransformInterceptor } from './common/transform.interceptor';
-import * as path from 'path';
+import * as express from 'express';
+import { join } from 'path';
+import { AppModule } from './modules/app/app.module';
 
 async function bootstrap() {
   let app: INestApplication;
+
+  // 启动协议
   if (process.env.EHOTEL === 'production') {
-    console.log('RUNNING IN 生产环境');
+    console.info('RUNNING IN 生产环境');
     const fs = require('fs');
     // https
     const httpsOptions = {
-      key: fs.readFileSync(path.join(__dirname, '../ssl/2_www.barteam.cn.key')),
+      key: fs.readFileSync(join(__dirname, '../ssl/2_www.barteam.cn.key')),
       cert: fs.readFileSync(
-        path.join(__dirname, '../ssl/1_www.barteam.cn_bundle.crt'),
+        join(__dirname, '../ssl/1_www.barteam.cn_bundle.crt'),
       ),
     };
     app = await NestFactory.create(AppModule, {
       httpsOptions,
     });
   } else {
-    console.log('RUNNING IN 开发环境');
+    console.info('RUNNING IN 开发环境');
     app = await NestFactory.create(AppModule);
   }
+
+  // 静态资源
+  const publicDir = join(__dirname, '..');
+  app.use('/public', express.static(join(publicDir, 'public')));
 
   // 开启跨域
   app.enableCors();
