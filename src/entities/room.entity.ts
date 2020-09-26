@@ -36,8 +36,8 @@ export class Room {
   @Column('nvarchar')
   title: string;
 
-  @Column('int')
-  room_num: number;
+  @Column({ type: 'nvarchar', unique: true })
+  room_num: string;
 
   @Column({ type: 'int', default: 0 })
   room_count: number;
@@ -60,12 +60,12 @@ export class Room {
   @Column('text')
   desc: string;
 
-  @Column({ length: 1024 })
+  @Column({ length: 2048 })
   img_url: string;
 
-  @Column({ length: 1024 })
+  @Column({ length: 4096 })
   room_info: string;
 
-  @Column({ length: 1024 })
+  @Column({ length: 4096 })
   computer_info: string;
 }

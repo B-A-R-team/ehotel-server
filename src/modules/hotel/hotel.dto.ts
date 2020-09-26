@@ -39,7 +39,7 @@ export class CreateAndUpdateHotelDto extends Hotel {
 export class UpdateSwiperDto {
   @ApiProperty({
     description: '轮播图地址',
-    example: '["static/1.png", "static/2.png"]',
+    example: '["/public/upload/1.png", "/public/upload/2.png"]',
   })
   swiperList: string;
 }
