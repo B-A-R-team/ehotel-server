@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Put,
+  UseGuards,
+  Post,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CouponService } from './coupon.service';
 import { CreateAndUpdateCouponDto } from './coupon.dto';
@@ -34,7 +43,7 @@ export class CouponController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/create')
+  @Post('/create')
   @ApiBearerAuth()
   @ApiOperation({ summary: '创建优惠券' })
   async create(@Body() createCouponDto: CreateAndUpdateCouponDto) {
@@ -42,7 +51,7 @@ export class CouponController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/update/:id')
+  @Put('/update/:id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '更新优惠券' })
   async update(
@@ -53,7 +62,7 @@ export class CouponController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/setused/:id')
+  @Put('/setused/:id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '将优惠券标记为已经使用' })
   async setUsed(@Param('id') id: number) {
@@ -61,7 +70,7 @@ export class CouponController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/delete/:id')
+  @Delete('/delete/:id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '删除优惠券' })
   async delete(@Param('id') id: number) {
