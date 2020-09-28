@@ -3,6 +3,7 @@ import {
   Entity,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Hotel } from './hotel.entity';
@@ -64,9 +65,9 @@ export class User {
   )
   hotel: Hotel;
 
-  @ManyToMany(
+  @OneToMany(
     type => IntegralLog,
-    integralLog => integralLog.users,
+    integralLog => integralLog.user,
   )
   integralLogs: IntegralLog[];
 }

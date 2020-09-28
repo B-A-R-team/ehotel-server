@@ -2,7 +2,7 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user.entity';
@@ -21,10 +21,9 @@ export class IntegralLog {
   @Column({ nullable: true })
   remarks: string;
 
-  @ManyToMany(
+  @ManyToOne(
     type => User,
     user => user.integralLogs,
   )
-  @JoinTable()
-  users: User[];
+  user: User;
 }
