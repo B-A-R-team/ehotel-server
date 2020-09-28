@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Room } from './room.entity';
 import { Active } from './active.entity';
@@ -61,10 +54,9 @@ export class Hotel {
   )
   actives: Active[];
 
-  @ManyToMany(
+  @OneToMany(
     type => Coupon,
-    coupon => coupon.hotels,
+    coupon => coupon.hotel,
   )
-  @JoinTable()
-  coupons: Coupon[];
+  coupon: Coupon;
 }

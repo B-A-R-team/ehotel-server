@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { Hotel } from './hotel.entity';
 import { IntegralLog } from './integral_log.entity';
+import { Coupon } from './coupon.entity';
+import { type } from 'os';
 
 @Entity()
 export class User {
@@ -70,4 +72,10 @@ export class User {
     integralLog => integralLog.user,
   )
   integralLogs: IntegralLog[];
+
+  @OneToMany(
+    type => Coupon,
+    coupon => coupon.user,
+  )
+  coupons: Coupon[];
 }

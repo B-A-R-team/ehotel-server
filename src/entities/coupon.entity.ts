@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Hotel } from './hotel.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Coupon {
@@ -27,9 +28,18 @@ export class Coupon {
   @Column({ type: 'text', nullable: true })
   remarks: string;
 
-  @ManyToMany(
+  @ManyToOne(
     type => Hotel,
-    hotel => hotel.coupons,
+    hotel => hotel.coupon,
   )
-  hotels: Hotel[];
+  hotel: Hotel;
+
+  @ManyToOne(
+    type => User,
+    user => user.coupons,
+  )
+  user: User;
+
+  @Column({ type: 'boolean', default: false })
+  is_used: boolean;
 }

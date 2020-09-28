@@ -52,11 +52,7 @@ export class ActiveService {
   async update(id: number, updateActiveDto: CreateAndUpdateActiveDto) {
     try {
       const { hotel_id, ...activeInfo } = updateActiveDto;
-      // 如果传入的酒店ID与原本的酒店ID不同，则更新酒店数据
-      if (hotel_id !== activeInfo.hotel.id) {
-        const hotel = await this.hotelService.findById(hotel_id);
-        activeInfo['hotel'] = hotel;
-      }
+
       return await this.activeRepository.update(id, activeInfo);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
