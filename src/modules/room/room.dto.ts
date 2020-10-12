@@ -9,9 +9,6 @@ export class CreateAndUpdateRoomDto extends Room {
   @ApiProperty({ description: '房间门牌号', example: 'S101' })
   room_num: string;
 
-  @ApiProperty({ description: '房间总数目', example: 4 })
-  room_count: number;
-
   @ApiProperty({ description: '房间价格', example: 100 })
   new_price: number;
 
@@ -48,4 +45,10 @@ export class CreateAndUpdateRoomDto extends Room {
 export class CreateAndUpdateTypeDto extends RoomType {
   @ApiProperty({ description: '房间类型名', example: '大床房' })
   type_name: string;
+
+  @ApiProperty({ description: '楼层', example: '["11", "12"]' })
+  floor: string[];
+
+  @ApiProperty({ description: '面积', example: 20 })
+  area: number;
 }

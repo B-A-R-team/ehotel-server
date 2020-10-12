@@ -9,7 +9,6 @@ import {
 import { Hotel } from './hotel.entity';
 import { IntegralLog } from './integral_log.entity';
 import { Coupon } from './coupon.entity';
-import { type } from 'os';
 
 @Entity()
 export class User {
@@ -61,21 +60,12 @@ export class User {
   @Column({ default: 0 })
   integral: number;
 
-  @ManyToOne(
-    type => Hotel,
-    hotel => hotel.owners,
-  )
+  @ManyToOne((type) => Hotel, (hotel) => hotel.owners)
   hotel: Hotel;
 
-  @OneToMany(
-    type => IntegralLog,
-    integralLog => integralLog.user,
-  )
+  @OneToMany((type) => IntegralLog, (integralLog) => integralLog.user)
   integralLogs: IntegralLog[];
 
-  @OneToMany(
-    type => Coupon,
-    coupon => coupon.user,
-  )
+  @OneToMany((type) => Coupon, (coupon) => coupon.user)
   coupons: Coupon[];
 }

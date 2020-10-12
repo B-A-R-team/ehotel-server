@@ -15,6 +15,12 @@ export class RoomType {
   @Column('nvarchar')
   type_name: string;
 
+  @Column('simple-array')
+  floor: string[];
+
+  @Column('double')
+  area: number;
+
   @OneToMany(
     type => Room,
     room => room.type,
@@ -27,6 +33,9 @@ export class Room {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'boolean', default: false })
+  is_used: boolean;
+
   @ManyToOne(
     type => RoomType,
     roomType => roomType.rooms,
@@ -38,9 +47,6 @@ export class Room {
 
   @Column({ type: 'nvarchar', unique: true })
   room_num: string;
-
-  @Column({ type: 'int', default: 0 })
-  room_count: number;
 
   @Column({ type: 'int', default: 2 })
   max_count: number;

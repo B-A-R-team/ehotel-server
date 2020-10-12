@@ -38,7 +38,13 @@ export class RoomService {
   async findRoomByType(typeId: number) {
     try {
       const type = await this.findTypeById(typeId);
-      return await this.roomRepository.find({ type });
+      const statistic = await this.findCountByType(type);
+      const rooms = await this.roomRepository.find({ type });
+
+      return {
+        statistic,
+        rooms,
+      };
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -64,6 +70,25 @@ export class RoomService {
   }
 
   /**
+   * 获取某类房间的房间数
+   * @param type 房间类型
+   */
+  async findCountByType(type: RoomType) {
+    try {
+      const rooms = await this.roomRepository.find({ type });
+      const total_length = rooms.length;
+      const used_length = rooms.filter(room => room['is_used']).length;
+      return {
+        total_length,
+        used_length,
+        remaining_length: total_length - used_length,
+      };
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
    * 创建房间类型
    * @param type 房间类型
    */
@@ -80,6 +105,7 @@ export class RoomService {
       const { typeId, hotelId, ...roomInfo } = createRoomDto;
       const type = await this.findTypeById(createRoomDto['typeId']);
       const hotel = await this.hotelService.findById(createRoomDto['hotelId']);
+      roomInfo['old_price'] = roomInfo['new_price'];
       roomInfo['hotel'] = hotel;
       roomInfo['type'] = type;
       return await this.roomRepository.save(roomInfo);
