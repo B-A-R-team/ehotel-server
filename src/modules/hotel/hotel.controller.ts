@@ -11,7 +11,11 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HotelService } from './hotel.service';
-import { CreateAndUpdateHotelDto, UpdateSwiperDto } from './hotel.dto';
+import {
+  AddSwiperDto,
+  CreateAndUpdateHotelDto,
+  UpdateSwiperDto,
+} from './hotel.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('酒店接口')
@@ -74,6 +78,17 @@ export class HotelController {
     return await this.hotelService.updateSwiperList(
       id,
       updateSwiperDto['swiperList'],
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/add/swiper')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '添加轮播图' })
+  async addSwiper(@Body() addSwiperDto: AddSwiperDto) {
+    return await this.hotelService.addSwiper(
+      addSwiperDto['id'],
+      addSwiperDto['swiper_url'],
     );
   }
 

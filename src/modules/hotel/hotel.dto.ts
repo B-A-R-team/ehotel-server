@@ -4,9 +4,9 @@ import { Hotel } from '../../entities/hotel.entity';
 export class CreateAndUpdateHotelDto extends Hotel {
   @ApiProperty({
     description: '轮播图地址',
-    example: '["static/1.png", "static/2.png"]',
+    example: ['static/1.png', 'static/2.png'],
   })
-  swiperList: string;
+  swiperList: string[];
 
   @ApiProperty({ description: '酒店名', example: '测试酒店名' })
   title: string;
@@ -39,7 +39,18 @@ export class CreateAndUpdateHotelDto extends Hotel {
 export class UpdateSwiperDto {
   @ApiProperty({
     description: '轮播图地址',
-    example: '["/public/upload/1.png", "/public/upload/2.png"]',
+    example: ['/public/upload/1.png', '/public/upload/2.png'],
   })
-  swiperList: string;
+  swiperList: string[];
+}
+
+export class AddSwiperDto {
+  @ApiProperty({ description: '酒店ID', example: 1 })
+  id: number;
+  
+  @ApiProperty({
+    description: '图片地址',
+    example: '/public/upload/1.png',
+  })
+  swiper_url: string;
 }

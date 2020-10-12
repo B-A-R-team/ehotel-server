@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -105,5 +106,13 @@ export class UserController {
   @ApiOperation({ summary: '退出商家' })
   async outBusiness(@Body() id: number) {
     return await this.userService.changeIdentity(id, false);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('/delete')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '删除用户' })
+  async delete(@Body() idList: number[]) {
+    return await this.userService.remove(idList);
   }
 }

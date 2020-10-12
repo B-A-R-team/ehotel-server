@@ -18,8 +18,8 @@ export class Hotel {
   @Column({ nullable: true })
   phone: string;
 
-  @Column({ length: 4096 })
-  swiperList: string;
+  @Column('simple-array')
+  swiperList: string[];
 
   @Column()
   open_time: string;

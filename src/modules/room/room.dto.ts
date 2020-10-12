@@ -46,7 +46,7 @@ export class CreateAndUpdateTypeDto extends RoomType {
   @ApiProperty({ description: '房间类型名', example: '大床房' })
   type_name: string;
 
-  @ApiProperty({ description: '楼层', example: '["11", "12"]' })
+  @ApiProperty({ description: '楼层', example: ['11', '12'] })
   floor: string[];
 
   @ApiProperty({ description: '面积', example: 20 })

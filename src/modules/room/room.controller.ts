@@ -31,6 +31,12 @@ export class RoomController {
     return await this.roomService.findAllType();
   }
 
+  @Get('/type/list/:id')
+  @ApiOperation({ summary: '根据TypeID获取房间类型' })
+  async getTypeById(@Param('id') id: number) {
+    return await this.roomService.findTypeById(id);
+  }
+
   @Get('/list/:id')
   @ApiOperation({ summary: '根据ID获取房间' })
   async getRoomById(@Param('id') id: number) {

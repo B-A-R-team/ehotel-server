@@ -99,4 +99,12 @@ export class UserService {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  async remove(idList: number[]) {
+    try {
+      return this.userRepository.delete(idList);
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

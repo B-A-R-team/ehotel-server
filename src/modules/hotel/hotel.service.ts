@@ -64,9 +64,28 @@ export class HotelService {
     }
   }
 
-  async updateSwiperList(id: number, swiperList: string) {
+  async updateSwiperList(id: number, swiperList: string[]) {
     try {
       return await this.update(id, { swiperList });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * 添加轮播图
+   * @param id 酒店ID
+   * @param swiper_url 轮播图路径
+   */
+  async addSwiper(id: number, swiper_url: string) {
+    try {
+      const hotel = await this.findById(id);
+      if (hotel['swiperList']) {
+        hotel['swiperList'] = [swiper_url, ...hotel['swiperList']];
+      } else {
+        hotel['swiperList'] = [swiper_url];
+      }
+      return await this.update(id, hotel);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
