@@ -14,11 +14,11 @@ export class CreateAndUpdateCouponDto extends Coupon {
   @ApiProperty({ description: '减多少钱', example: 20 })
   reduce_price: number;
 
-  @ApiProperty({ description: '开始时间', example: 1601304584014 })
-  start_time: Date;
+  @ApiProperty({ description: '开始时间', example: '1601304584014' })
+  start_time: string;
 
-  @ApiProperty({ description: '结束时间', example: 1601404584014 })
-  end_time: Date;
+  @ApiProperty({ description: '结束时间', example: '1601404584014' })
+  end_time: string;
 
   @ApiProperty({ description: '备注', example: '无备注' })
   remarks: string;

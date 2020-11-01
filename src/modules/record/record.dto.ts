@@ -29,3 +29,14 @@ export class CreateRecordDto extends Record {
   })
   status: RecordStatus;
 }
+
+export class UpdateStatusDto {
+  @ApiProperty({ description: '订单ID', example: 1 })
+  id: number;
+
+  @ApiProperty({
+    description: '订单状态',
+    example: RecordStatus['FINISH'],
+  })
+  status: RecordStatus;
+}

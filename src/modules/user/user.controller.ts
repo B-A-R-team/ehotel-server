@@ -20,6 +20,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { appid, appsecret } from '../../config/wxminapp.config';
+import { BalanceDto, VipChangeDto, IntegralChangeDto } from './user.dto';
 
 @ApiTags('用户接口')
 @Controller('user')
@@ -35,6 +36,14 @@ export class UserController {
   @ApiOperation({ summary: '获取所有用户' })
   async getAll(): Promise<User[]> {
     return await this.userService.findAll();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/viplist')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '获取所有VIP用户' })
+  async getVip(): Promise<User[]> {
+    return await this.userService.findVip();
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -106,6 +115,69 @@ export class UserController {
   @ApiOperation({ summary: '退出商家' })
   async outBusiness(@Body() id: number) {
     return await this.userService.changeIdentity(id, false);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/tovip/:id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '成为vip' })
+  async toVip(@Param('id') id: number) {
+    return await this.userService.toVip(id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/increase')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '充值余额' })
+  async increaseBalance(@Body() balanceDto: BalanceDto) {
+    return await this.userService.increaseBalance(
+      balanceDto['id'],
+      balanceDto['money'],
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/decrease')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '消费余额' })
+  async decreaseBalance(@Body() balanceDto: BalanceDto) {
+    return await this.userService.decreaseBalance(
+      balanceDto['id'],
+      balanceDto['money'],
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/changeName')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '修改用户姓名' })
+  async changeName(@Body() vipChangeDto: VipChangeDto) {
+    return await this.userService.changeName(
+      vipChangeDto['id'],
+      vipChangeDto['name'],
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/changePhone')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '修改用户电话' })
+  async changePhone(@Body() vipChangeDto: VipChangeDto) {
+    return await this.userService.changePhone(
+      vipChangeDto['id'],
+      vipChangeDto['phone'],
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('/changeIntegral')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '修改用户积分' })
+  async changeIntegral(@Body() integralChangeDto: IntegralChangeDto) {
+    return await this.userService.changeIntegral(
+      integralChangeDto['id'],
+      integralChangeDto['integral'],
+    );
   }
 
   @UseGuards(AuthGuard('jwt'))

@@ -38,11 +38,40 @@ export class IntegralLogService {
     }
   }
 
+  async getTotalIntegral(id: number) {
+    try {
+      const logs = await this.findByUserId(id);
+
+      let totalIntegral = 0;
+      if (logs.length > 0) {
+        logs.forEach(log => {
+          if (log.is_out) {
+            totalIntegral -= log.sell_count;
+          } else {
+            totalIntegral += log.sell_count;
+          }
+        });
+      }
+
+      return totalIntegral;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   async create(createIntegralLog: CreateIntegralLogDto) {
     try {
       const { user_id, ...integralLogInfo } = createIntegralLog;
       const user = await this.userService.findById(user_id);
+
+      if (integralLogInfo['is_out']) {
+        user['integral'] -= integralLogInfo.sell_count;
+      } else {
+        user['integral'] += integralLogInfo.sell_count;
+      }
+
       integralLogInfo['user'] = user;
+      await this.userService.changeIntegral(user['id'], user['integral']);
       return await this.integralLogRepository.save(integralLogInfo);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Hotel } from './hotel.entity';
+import { Record } from './record.entity';
 
 @Entity()
 export class RoomType {
@@ -74,4 +75,7 @@ export class Room {
 
   @Column({ length: 4096 })
   computer_info: string;
+
+  @OneToMany(type => Record, record => record.room)
+  records: Record[];
 }

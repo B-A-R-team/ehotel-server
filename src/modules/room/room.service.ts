@@ -17,7 +17,9 @@ export class RoomService {
 
   async findAll() {
     try {
-      return await this.roomRepository.find();
+      return await this.roomRepository.find({
+        relations: ['type', 'records'],
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -25,7 +27,10 @@ export class RoomService {
 
   async findRoomById(id: number) {
     try {
-      return await this.roomRepository.findOne({ id });
+      return await this.roomRepository.findOne({
+        relations: ['type', 'records'],
+        where: { id },
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -39,7 +44,10 @@ export class RoomService {
     try {
       const type = await this.findTypeById(typeId);
       const statistic = await this.findCountByType(type);
-      const rooms = await this.roomRepository.find({ type });
+      const rooms = await this.roomRepository.find({
+        relations: ['type', 'records'],
+        where: { type },
+      });
 
       return {
         statistic,
@@ -129,7 +137,13 @@ export class RoomService {
 
   async updateRoom(id: number, updateRoomDto: CreateAndUpdateRoomDto) {
     try {
-      return await this.roomRepository.update(id, updateRoomDto);
+      const { typeId, hotelId, ...updateRoom } = updateRoomDto;
+      const type = await this.findTypeById(typeId);
+      const hotel = await this.hotelService.findById(hotelId);
+      updateRoom['type'] = type;
+      updateRoom['hotel'] = hotel;
+
+      return await this.roomRepository.update(id, updateRoom);
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

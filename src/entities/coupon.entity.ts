@@ -19,18 +19,18 @@ export class Coupon {
   @Column()
   reduce_price: number;
 
-  @Column('timestamp')
-  start_time: Date;
+  @Column()
+  start_time: string;
 
-  @Column('timestamp')
-  end_time: Date;
+  @Column()
+  end_time: string;
 
   @Column({ type: 'text', nullable: true })
   remarks: string;
 
   @ManyToOne(
     type => Hotel,
-    hotel => hotel.coupon,
+    hotel => hotel.coupons,
   )
   hotel: Hotel;
 

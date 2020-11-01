@@ -23,7 +23,7 @@ export class LoginByEmailDto extends User {
 export class LoginByWXDto extends User {
   @ApiProperty({ description: '微信昵称' })
   nickname: string;
-  
+
   @ApiProperty({ description: '微信头像' })
   avatar_url: string;
 
@@ -37,4 +37,31 @@ export class LoginResponseDto {
 
   @ApiProperty({ description: 'token' })
   token: string;
+}
+
+export class BalanceDto {
+  @ApiProperty({ description: '用户ID', example: 1 })
+  id: number;
+
+  @ApiProperty({ description: '金额', example: 20 })
+  money: number;
+}
+
+export class VipChangeDto {
+  @ApiProperty({ description: '用户ID', example: 1 })
+  id: number;
+
+  @ApiProperty({ description: '姓名', example: '小明' })
+  name?: string;
+
+  @ApiProperty({ description: '电话号', example: '15615615484' })
+  phone?: string;
+}
+
+export class IntegralChangeDto {
+  @ApiProperty({ description: '用户ID', example: 1 })
+  id: number;
+
+  @ApiProperty({ description: '积分', example: 20 })
+  integral: number;
 }

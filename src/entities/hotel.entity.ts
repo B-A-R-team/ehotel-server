@@ -3,6 +3,7 @@ import { User } from './user.entity';
 import { Room } from './room.entity';
 import { Active } from './active.entity';
 import { Coupon } from './coupon.entity';
+import { Record } from './record.entity';
 
 @Entity()
 export class Hotel {
@@ -58,5 +59,11 @@ export class Hotel {
     type => Coupon,
     coupon => coupon.hotel,
   )
-  coupon: Coupon;
+  coupons: Coupon[];
+
+  @OneToMany(
+    type => Record,
+    record => record.hotel,
+  )
+  records: Record[];
 }

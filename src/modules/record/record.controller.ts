@@ -11,13 +11,21 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { RecordService } from './record.service';
-import { CreateRecordDto } from './record.dto';
+import { CreateRecordDto, UpdateStatusDto } from './record.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('订单接口')
 @Controller('record')
 export class RecordController {
   constructor(private readonly recordService: RecordService) {}
+
+  @Get('/getByRecordId')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '获取某个订单' })
+  async getByRecordId(@Query('recordId') recordId: number) {
+    return await this.recordService.findByRecordId(recordId);
+  }
 
   @Get('/getByHotelId')
   @UseGuards(AuthGuard('jwt'))
@@ -65,6 +73,17 @@ export class RecordController {
   @ApiOperation({ summary: '设置订单有效' })
   async openRecord(@Param('id') id: number) {
     return await this.recordService.changeRecord(id, false);
+  }
+
+  @Put('/changeStatus')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '更改订单状态' })
+  async changeStatus(@Body() updateStatusDto: UpdateStatusDto) {
+    return await this.recordService.changeRecordStatus(
+      updateStatusDto['id'],
+      updateStatusDto['status'],
+    );
   }
 
   @Delete('/delete/:id')

@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -25,16 +26,22 @@ export class Record {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(type => Hotel)
-  @JoinColumn()
+  @ManyToOne(
+    type => Hotel,
+    hotel => hotel.records,
+  )
   hotel: Hotel;
 
-  @OneToOne(type => Room)
-  @JoinColumn()
+  @ManyToOne(
+    type => Room,
+    room => room.records,
+  )
   room: Room;
 
-  @OneToOne(type => User)
-  @JoinColumn()
+  @ManyToOne(
+    type => User,
+    user => user.records,
+  )
   user: User;
 
   @CreateDateColumn({ type: 'timestamp' })

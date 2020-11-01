@@ -9,6 +9,7 @@ import {
 import { Hotel } from './hotel.entity';
 import { IntegralLog } from './integral_log.entity';
 import { Coupon } from './coupon.entity';
+import { Record } from './record.entity';
 
 @Entity()
 export class User {
@@ -68,4 +69,7 @@ export class User {
 
   @OneToMany((type) => Coupon, (coupon) => coupon.user)
   coupons: Coupon[];
+  
+  @OneToMany(type => Record, record => record.user)
+  records: Record[];
 }

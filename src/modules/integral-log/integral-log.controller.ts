@@ -41,6 +41,13 @@ export class IntegralLogController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Get('/getTotalIntegral')
+  @ApiOperation({ summary: '计算某用户的总积分' })
+  async getTotalIntegral(@Query('userId') userId: number) {
+    return this.integralLogService.getTotalIntegral(userId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Post('/create')
   @ApiOperation({ summary: '创建积分记录' })
   async create(@Body() createIntegralLog: CreateIntegralLogDto) {

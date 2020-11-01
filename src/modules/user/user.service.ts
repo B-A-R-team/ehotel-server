@@ -19,6 +19,14 @@ export class UserService {
     }
   }
 
+  async findVip() {
+    try {
+      return await this.userRepository.find({ is_vip: true });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   async create(user: User): Promise<User> {
     try {
       user.pass = crypto.MD5(user.pass).toString();
@@ -95,6 +103,97 @@ export class UserService {
       return await this.userRepository.update(id, {
         is_business: isbusiness,
       });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * 成为vip
+   * @param id 用户id
+   */
+  async toVip(id: number) {
+    try {
+      return this.userRepository.update(id, { is_vip: true });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * 增加余额
+   * @param id 用户ID
+   * @param money 金额
+   */
+  async increaseBalance(id: number, money: number) {
+    try {
+      const { paid_balance } = await this.findById(id);
+      const newBalance = paid_balance + money;
+
+      return this.userRepository.update(id, {
+        paid_balance: newBalance,
+      });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * 减少余额
+   * @param id 用户ID
+   * @param money 金额
+   */
+  async decreaseBalance(id: number, money: number) {
+    try {
+      const { paid_balance } = await this.findById(id);
+      const newBalance = paid_balance - money;
+
+      if (newBalance < 0) {
+        throw '余额不足';
+      }
+
+      return this.userRepository.update(id, {
+        paid_balance: newBalance,
+      });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * 更改用户积分
+   * @param id 用户ID
+   * @param integral 积分
+   */
+  async changeIntegral(id: number, integral: number) {
+    try {
+      return this.userRepository.update(id, { integral });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * 修改用户姓名
+   * @param id 用户ID
+   * @param name 用户姓名
+   */
+  async changeName(id: number, name: string) {
+    try {
+      return this.userRepository.update(id, { name });
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * 修改用户电话号
+   * @param id 用户ID
+   * @param phone 用户电话号
+   */
+  async changePhone(id: number, phone: string) {
+    try {
+      return this.userRepository.update(id, { phone });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

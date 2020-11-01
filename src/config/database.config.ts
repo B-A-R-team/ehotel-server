@@ -9,10 +9,10 @@ import { Active } from '../entities/active.entity';
 
 const dbConfig: TypeOrmModuleOptions = {
   type: 'mysql',
-  host: 'www.barteam.cn',
+  host: 'www.xxxx.cn',
   port: 3306,
-  username: 'root',
-  password: 'Bar123456790.',
+  username: 'xxxx',
+  password: 'xxxx.',
   database: 'ehotel_test',
   entities: [
     User,
